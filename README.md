@@ -7,12 +7,12 @@ Fork of [Duet3D RepRapFirmware](https://github.com/Duet3D/RepRapFirmware) that c
 
 This branch tracks stable releases of RepRapFirmware, currently at **3.1.1**. More specifically, the repositories (and the tag/branch) involved in the build are as follows:
 
-- RepRapFirmware **3.1.1**
-- CoreNG **3.1.0**
-- CANlib **3.1.0**
-- DuetWiFiSocketServer **master**
-- FreeRTOS **3.1.0**
-- RRFLibraries **3.1.0**
+- RepRapFirmware **3.1.1** - this repo
+- [CoreNG **3.1.0**](https://github.com/likha3d/Duet3D-CoreNG)
+- [CANlib **3.1.0**](https://github.com/likha3d/Duet3D-CANlib)
+- [DuetWiFiSocketServer **master**](https://github.com/likha3d/Duet3D-DuetWiFiSocketServer)
+- [FreeRTOS **3.1.0**](https://github.com/likha3d/Duet3D-FreeRTOS)
+- [RRFLibraries **3.1.0**](https://github.com/likha3d/Duet3D-RRFLibraries)
 
 ## Supported Boards
 
