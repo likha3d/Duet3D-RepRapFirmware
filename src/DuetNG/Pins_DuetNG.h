@@ -22,7 +22,7 @@ constexpr size_t NumFirmwareUpdateModules = 5;		// 0 = mainboard, 4 = PanelDue, 
 
 #else
 
-#define FIRMWARE_NAME			"RepRapFirmware for Duet 2 WiFi/Ethernet"
+#define FIRMWARE_NAME			"RepRapFirmware for Duet 2 WiFi/Ethernet (Debug)"
 #define DEFAULT_BOARD_TYPE	 	BoardType::DuetWiFi_10
 #define IAP_FIRMWARE_FILE		"Duet2CombinedFirmware.bin"
 #define IAP_UPDATE_FILE			"Duet2_SDiap32_WiFiEth.bin"	// using the same IAP file for both Duet WiFi and Duet Ethernet
@@ -96,7 +96,12 @@ constexpr uint32_t IAP_IMAGE_START = 0x20018000;	// IAP is loaded into the last 
 
 // The physical capabilities of the machine
 
-constexpr size_t NumDirectDrivers = 12;				// The maximum number of drives supported directly by the electronics
+#if SUPPORT_12864_LCD
+constexpr size_t NumDirectDrivers = 10;				// The maximum number of drives supported directly by the electronics
+#else
+constexpr size_t NumDirectDrivers = 11;				// The maximum number of drives supported directly by the electronics
+#endif
+
 constexpr size_t MaxSmartDrivers = 10;				// The maximum number of smart drivers
 
 constexpr size_t MaxSensors = 32;
@@ -154,7 +159,7 @@ constexpr Pin GlobalTmc2660EnablePin = PortCPin(6);	// The pin that drives ENN o
 constexpr Pin ENABLE_PINS[NumDirectDrivers] =
 {
 	PortDPin(14), PortCPin(9), PortCPin(10), PortCPin(17), PortCPin(25),	// Duet
-	PortDPin(23), PortDPin(24), PortDPin(25), PortDPin(26), PortBPin(14),	// DueX5
+	PortDPin(23), PortDPin(24), PortDPin(25), PortDPin(26), //[DEBUG] PortBPin(14),	// DueX5
 	PortDPin(18),															// CONN_LCD
 #if !SUPPORT_12864_LCD
 	PortCPin(28)
@@ -163,7 +168,7 @@ constexpr Pin ENABLE_PINS[NumDirectDrivers] =
 constexpr Pin STEP_PINS[NumDirectDrivers] =
 {
 	PortDPin(6), PortDPin(7), PortDPin(8), PortDPin(5), PortDPin(4),		// Duet
-	PortDPin(2), PortDPin(1), PortDPin(0), PortDPin(3), PortDPin(27),		// DueX5
+	PortDPin(2), PortDPin(1), PortDPin(0), PortDPin(3), //[DEBUG] PortDPin(27),		// DueX5
 	PortDPin(20),															// CONN_LCD
 #if !SUPPORT_12864_LCD
 	PortDPin(21)
@@ -171,7 +176,7 @@ constexpr Pin STEP_PINS[NumDirectDrivers] =
 };
 constexpr Pin DIRECTION_PINS[NumDirectDrivers] =
 {	PortDPin(11), PortDPin(12), PortDPin(13), PortAPin(1), PortDPin(9),		// Duet
-	PortDPin(28), PortDPin(22), PortDPin(16), PortDPin(17), PortCPin(0),	// DueX5
+	PortDPin(28), PortDPin(22), PortDPin(16), PortDPin(17), // [DEBUG] PortCPin(0) // DueX5
 	PortDPin(19),															// CONN_LCD
 #if !SUPPORT_12864_LCD
 	PortAPin(25)
@@ -218,7 +223,7 @@ constexpr Pin PowerMonitor5vDetectPin = PortBPin(3);						// AFE1_AD1/PB3 5V reg
 
 constexpr float PowerMonitorVoltageRange = 11.0 * 3.3;						// We use an 11:1 voltage divider
 
-constexpr Pin VssaSensePin = PortBPin(7);
+constexpr Pin VssaSensePin = PortCPin(0); // [DEBUG] PortBPin(7);
 
 // Z probes
 constexpr Pin Z_PROBE_PIN = PortCPin(1);									// AFE1_AD4/PC1 Z probe analog input
@@ -374,7 +379,7 @@ constexpr PinEntry PinTable[] =
 	{ PortAPin(7),	PinCapability::rw,		"connsd.encsw,connsd.7" },
 	{ PortAPin(9),	PinCapability::rw,		"urxd0" },
 	{ PortAPin(10),	PinCapability::rw,		"utxd0" },
-	{ PortBPin(6),	PinCapability::rw,		"exp.pb6,exp.29,duex.pb6" },
+	// [DEBUG] { PortBPin(6),	PinCapability::rw,		"exp.pb6,exp.29,duex.pb6" },
 	{ 211,			PinCapability::rwpwm,	"duex.gp1" },
 	{ 210,			PinCapability::rwpwm,	"duex.gp2" },
 	{ 209,			PinCapability::rwpwm,	"duex.gp3" },

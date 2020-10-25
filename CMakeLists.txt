@@ -45,7 +45,7 @@ add_compile_options(
     "-Wdouble-promotion"
     "-fsingle-precision-constant"
     "-Wall"
-    "-O2"
+    "-O1" "-g"
     "-nostdlib"
     "$<$<COMPILE_LANGUAGE:CXX>:-fno-threadsafe-statics>"
     "$<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>"
