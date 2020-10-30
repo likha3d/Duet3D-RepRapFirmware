@@ -11,6 +11,7 @@
         "interface": "swd",
         "device": "ATSAM4E8E",
         "runToMain": false,
+        "svdFile": "${workspaceRoot}/.vscode/ATSAM4E8E.svd",
         "preRestartCommands": [
           "file ./build/Duet2CombinedFirmware.elf",
           "load",
