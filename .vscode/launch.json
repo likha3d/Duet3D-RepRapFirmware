@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "duet",
+        "cwd": "${workspaceRoot}",
+        "executable": "./build/Duet2CombinedFirmware.elf",
+        "request": "launch",
+        "type": "cortex-debug",
+        "servertype": "jlink",
+        "interface": "swd",
+        "device": "ATSAM4E8E",
+        "runToMain": false,
+        "preRestartCommands": [
+          "file ./build/Duet2CombinedFirmware.elf",
+          "load",
+          "enable breakpoint",
+          "monitor reset"
+        ]
+      }
+    ]
+  }
