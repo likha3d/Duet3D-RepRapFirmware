@@ -2,7 +2,7 @@ if(NOT DuetWiFiSocketServer_FOUND)
     message(FATAL_ERROR "'DuetNG' build requires DuetWiFiSocketServer")
 endif()
 
-add_definitions("-D__SAM4E8E__" "-DDUET_NG")
+add_definitions("-D__SAM4E8E__" "-DDUET_NG" "-DDEBUG")
 add_compile_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
 add_link_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
 
