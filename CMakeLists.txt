@@ -8,14 +8,14 @@ set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 # and the path to needed external libraries.
 set(BOARD "DuetNG" CACHE STRING "RepRapFirmware target board")
 
-set_property(CACHE BOARD PROPERTY STRINGS "Duet3Mini"
-                                          "DuetNG"
-                                          "DuetM"
-                                          "Pccb"
-                                          "Duet3_V06")
+set(supported "Duet3Mini"
+              "DuetNG"
+              "DuetM"
+              "Pccb"
+              "Duet3_V06")
+set_property(CACHE BOARD PROPERTY STRINGS ${supported})
 
-set(unsupported "Pccb" "Alligator" "SAME70xpld" "Duet3_V05" "RADDS")
-if(BOARD IN_LIST unsupported)
+if(NOT BOARD IN_LIST supported)
     message(FATAL_ERROR "Chosen unsupported board '${BOARD}'")
 endif()
 
@@ -256,9 +256,6 @@ set(SRCS
 set(INCLUDE_DIRS
     "src"
     "src/Networking"
-    "src/Networking/LwipEthernet/Lwip/src/include"
-    "src/Networking/LwipEthernet/Lwip"
-    "src/Hardware/SAME5x"
 )
 
 # Pull in board-specific sources, include dirs and build-specifications.

@@ -11,20 +11,23 @@ add_compile_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
 add_link_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
 
 list(APPEND SRCS
-    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/GmacInterface.cpp"
-    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/ksz8081rna/ethernet_phy.c"
-    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/gmac_phy.c"
+    "${CMAKE_CURRENT_LIST_DIR}/Pins_Duet3Mini.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Main.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Devices.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/Pins_Duet3Mini.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/ethernet_sam.cpp"
+
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/LinuxInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/DataTransfer.cpp"
-
 
     "${CANlib_DIR}/src/CanMessageBuffer.cpp"
     "${CANlib_DIR}/src/CanMessageFormats.cpp"
     "${CANlib_DIR}/src/CanSettings.cpp"
 
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/GmacInterface.cpp"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/ksz8081rna/ethernet_phy.c"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/gmac_phy.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipSocket.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipEthernetInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp_alloc.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/altcp_proxyconnect.c"
@@ -148,11 +151,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WiFiInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WifiFirmwareUploader.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WiFiSocket.cpp"
-
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipSocket.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipEthernetInterface.cpp"
-
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/ethernet_sam.cpp"
 )
 
 list(APPEND INCLUDE_DIRS 
@@ -160,6 +158,9 @@ list(APPEND INCLUDE_DIRS
     "${CANlib_DIR}/src"
     "${DuetWiFiSocketServer_DIR}/src/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip"
 )
 
 set(EXECUTABLE_NAME "Duet3Firmware_Mini5plus")
