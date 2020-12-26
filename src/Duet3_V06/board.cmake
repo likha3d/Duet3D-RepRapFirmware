@@ -9,14 +9,15 @@ add_link_options("-mcpu=cortex-m7" "-mfpu=fpv5-d16" "-mfloat-abi=hard")
 
 list(APPEND SRCS
     "${CMAKE_CURRENT_LIST_DIR}/Pins_Duet3_V06.cpp"
+
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/LinuxInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/DataTransfer.cpp"
+
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME70/Ethernet/GmacInterface.cpp"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME70/Ethernet/ksz8081rna/ethernet_phy.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipEthernetInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipSocket.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/ethernet_sam.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/same70_gmac.cpp"
-
-
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp_alloc.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/altcp_proxyconnect.c"
@@ -48,7 +49,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/ipv6/ethip6.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/eui64.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/fs.c"
-    # "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/fsdata.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/fsm.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/http_client.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/httpd.c"
@@ -74,7 +74,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/lowpan6_common.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/lwiperf/lwiperf.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/magic.c"
-    # "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/makefsdata/makefsdata.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/polarssl/md4.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/polarssl/md5.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/mdns/mdns.c"
@@ -145,13 +144,14 @@ list(APPEND SRCS
     "${CANlib_DIR}/src/CanSettings.cpp"
 )
 
-list(REMOVE_ITEM SRCS
-    "src/libc/nano-mallocr.c"
-)
-
 list(APPEND INCLUDE_DIRS 
     "${CMAKE_CURRENT_LIST_DIR}"
     "${CANlib_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME70"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME70/Ethernet"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME70"
 )
 
 set(EXECUTABLE_NAME "Duet3Firmware_MB6HC")
