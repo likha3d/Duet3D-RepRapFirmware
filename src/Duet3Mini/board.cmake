@@ -1,9 +1,9 @@
 if(NOT CANlib_FOUND)
-    message(FATAL_ERROR "'Duet3' build requires CANlib")
+    message(FATAL_ERROR "'Duet3Mini' build requires CANlib")
 endif()
 
 if(NOT DuetWiFiSocketServer_FOUND)
-    message(FATAL_ERROR "DuetNG build requires DuetWiFiSocketServer")
+    message(FATAL_ERROR "'Duet3Mini' build requires DuetWiFiSocketServer")
 endif()
 
 add_definitions("-D__SAME54P20A__" "-DDUET3MINI_V04" "-DCMSIS_device_header=\"same54p20a.h\"" "-DSUPPORT_CAN"  "-DSUPPORT_SDHC" "-DSUPPORT_USB")

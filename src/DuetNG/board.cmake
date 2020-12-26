@@ -1,5 +1,5 @@
 if(NOT DuetWiFiSocketServer_FOUND)
-    message(FATAL_ERROR "DuetNG build requires DuetWiFiSocketServer")
+    message(FATAL_ERROR "'DuetNG' build requires DuetWiFiSocketServer")
 endif()
 
 add_definitions("-D__SAM4E8E__" "-DDUET_NG")
