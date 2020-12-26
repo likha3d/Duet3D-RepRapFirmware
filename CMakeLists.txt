@@ -8,7 +8,8 @@ set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 # and the path to needed external libraries.
 set(BOARD "DuetNG" CACHE STRING "RepRapFirmware target board")
 
-set_property(CACHE BOARD PROPERTY STRINGS "DuetNG"
+set_property(CACHE BOARD PROPERTY STRINGS "Duet3Mini"
+                                          "DuetNG"
                                           "DuetM"
                                           "Pccb"
                                           "RADDS"
@@ -26,7 +27,7 @@ endif()
 # on the same parent directory as RepRapFirmware.
 get_filename_component(parent_dir ${CMAKE_CURRENT_LIST_DIR} DIRECTORY)
 
-find_package(CoreNG REQUIRED HINTS "${parent_dir}/CoreNG")
+find_package(CoreNG REQUIRED NAMES CoreN2G HINTS "${parent_dir}/CoreN2G" "${parent_dir}/CoreNG")
 find_package(FreeRTOS REQUIRED HINTS "${parent_dir}/FreeRTOS")
 find_package(RRFLibraries REQUIRED HINTS "${parent_dir}/RRFLibraries")
 
@@ -71,11 +72,13 @@ set(SRCS
     "src/Tools/Spindle.cpp"
     "src/Storage/CRC32.cpp"
     "src/Tools/Tool.cpp"
+    "src/Storage/CRC16.cpp"
+    "src/Storage/CRC16.h"
+    "src/Stream.cpp"
     "src/Storage/FileInfoParser.cpp"
     "src/Storage/FileStore.cpp"
     "src/Storage/MassStorage.cpp"
     "src/ObjectModel/ObjectModel.cpp"
-    "src/Networking/FirmwareUpdater.cpp"
     "src/Networking/FtpResponder.cpp"
     "src/Networking/HttpResponder.cpp"
     "src/Networking/Network.cpp"
@@ -133,11 +136,12 @@ set(SRCS
     "src/Heating/LocalHeater.cpp"
     "src/Heating/RemoteHeater.cpp"
     "src/Heating/TemperatureError.cpp"
-    "src/Hardware/Cache.cpp"
-    "src/Hardware/CanDriver.cpp"
-    "src/Hardware/DmacManager.cpp"
     "src/Hardware/I2C.cpp"
     "src/Hardware/IoPorts.cpp"
+    "src/Hardware/ExceptionHandlers.cpp"
+    "src/Hardware/IoPorts.cpp"
+    "src/Hardware/NonVolatileMemory.cpp"
+    "src/Hardware/SoftwareReset.cpp"
     "src/GPIO/GpInPort.cpp"
     "src/GPIO/GpOutPort.cpp"
     "src/GCodes/GCodeBuffer/BinaryParser.cpp"
@@ -162,7 +166,7 @@ set(SRCS
     "src/FilamentMonitors/PulsedFilamentMonitor.cpp"
     "src/FilamentMonitors/RotatingMagnetFilamentMonitor.cpp"
     "src/FilamentMonitors/SimpleFilamentMonitor.cpp"
-    "src/Fans/DotStarLed.cpp"
+    "src/Fans/LedStripDriver.cpp"
     "src/Fans/Fan.cpp"
     "src/Fans/FansManager.cpp"
     "src/Fans/LocalFan.cpp"
@@ -175,18 +179,51 @@ set(SRCS
     "src/Endstops/SwitchEndstop.cpp"
     "src/Endstops/ZProbe.cpp"
     "src/Endstops/ZProbeEndstop.cpp"
-    "src/Display/ST7920/glcd11x14.cpp"
-    "src/Display/ST7920/glcd7x11.cpp"
-    "src/Display/ST7920/lcd7920.cpp"
+    "src/Display/Lcd/Fonts/LcdFont.h"
+    "src/Display/Lcd/Fonts/glcd11x14.cpp"
+    "src/Display/Lcd/Fonts/glcd7x11.cpp"
+    "src/Display/Lcd/Lcd.cpp"
+    "src/Display/Lcd/Lcd.h"
+    "src/Display/Lcd/ST7567/Lcd7567.cpp"
+    "src/Display/Lcd/ST7567/Lcd7567.h"
+    "src/Display/Lcd/ST7920/Lcd7920.cpp"
+    "src/Display/Lcd/ST7920/Lcd7920.h"
     "src/Display/Display.cpp"
     "src/Display/Menu.cpp"
     "src/Display/MenuItem.cpp"
     "src/Display/RotaryEncoder.cpp"
+    "src/Comms/AuxDevice.cpp"
+    "src/Comms/AuxDevice.h"
+    "src/Comms/FirmwareUpdater.cpp"
+    "src/Comms/FirmwareUpdater.h"
+    "src/Comms/PanelDueUpdater.cpp"
+    "src/Comms/PanelDueUpdater.h"
     "src/CAN/CanInterface.cpp"
     "src/CAN/CanMessageGenericConstructor.cpp"
     "src/CAN/CanMotion.cpp"
     "src/CAN/CommandProcessor.cpp"
     "src/CAN/ExpansionManager.cpp"
+
+    "src/bossa/Applet.cpp"
+    "src/bossa/Applet.h"
+    "src/bossa/Device.cpp"
+    "src/bossa/Device.h"
+    "src/bossa/EefcFlash.cpp"
+    "src/bossa/EefcFlash.h"
+    "src/bossa/Flash.cpp"
+    "src/bossa/Flash.h"
+    "src/bossa/Flasher.cpp"
+    "src/bossa/Flasher.h"
+    "src/bossa/Samba.cpp"
+    "src/bossa/Samba.h"
+    "src/bossa/SerialPort.h"
+    "src/bossa/WordCopyApplet.cpp"
+    "src/bossa/WordCopyApplet.h"
+    "src/bossa/WordCopyArm.asm"
+    "src/bossa/WordCopyArm.cpp"
+    "src/bossa/WordCopyArm.h"
+    "src/ecv.h"
+
     "src/Logger.cpp"
     "src/OutputMemory.cpp"
     "src/Platform.cpp"
@@ -196,7 +233,6 @@ set(SRCS
     "src/RepRapFirmware.cpp"
     "src/Roland.cpp"
     "src/Scanner.cpp"
-    "src/SoftwareReset.cpp"
     "src/Tasks.cpp"
 
     "src/libcpp/eh_alloc.cpp"
@@ -206,7 +242,12 @@ set(SRCS
     "src/libc/memmove.c"
     "src/libc/memset.c"
     "src/libc/strptime.cpp"
-    "src/libc/nano-mallocr.c"
+
+    "src/Libraries/sd_mmc/sd_mmc.c"
+    "src/Libraries/sd_mmc/sd_mmc_mem.c"
+    "src/Libraries/sd_mmc/ctrl_access.c"
+    "src/Libraries/sd_mmc/sd_mmc_spi.cpp"
+
 )
 
 set(INCLUDE_DIRS
@@ -214,6 +255,7 @@ set(INCLUDE_DIRS
     "src/Networking"
     "src/Networking/LwipEthernet/Lwip/src/include"
     "src/Networking/LwipEthernet/Lwip"
+    "src/Hardware/SAME5x"
 )
 
 # Pull in board-specific sources, include dirs and build-specifications.

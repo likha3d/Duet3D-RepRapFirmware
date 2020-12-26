@@ -2,20 +2,30 @@ if(NOT CANlib_FOUND)
     message(FATAL_ERROR "'Duet3' build requires CANlib")
 endif()
 
-add_definitions("-D__SAME70Q20B__" "-DDUET3_V06" "-DHAS_LINUX_INTERFACE" "-DUSE_CAN0")
+if(NOT DuetWiFiSocketServer_FOUND)
+    message(FATAL_ERROR "DuetNG build requires DuetWiFiSocketServer")
+endif()
 
-add_compile_options("-mcpu=cortex-m7" "-mfpu=fpv5-d16" "-mfloat-abi=hard")
-add_link_options("-mcpu=cortex-m7" "-mfpu=fpv5-d16" "-mfloat-abi=hard")
+add_definitions("-D__SAME54P20A__" "-DDUET3MINI_V04" "-DCMSIS_device_header=\"same54p20a.h\"" "-DSUPPORT_CAN"  "-DSUPPORT_SDHC" "-DSUPPORT_USB")
+add_compile_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
+add_link_options("-mcpu=cortex-m4" "-mfpu=fpv4-sp-d16" "-mfloat-abi=hard")
 
 list(APPEND SRCS
-    "${CMAKE_CURRENT_LIST_DIR}/Pins_Duet3_V06.cpp"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/GmacInterface.cpp"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/ksz8081rna/ethernet_phy.c"
+    "${CMAKE_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet/gmac_phy.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Devices.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/Pins_Duet3Mini.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/LinuxInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/DataTransfer.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipEthernetInterface.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipSocket.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/ethernet_sam.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/same70_gmac.cpp"
 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SharedSpi/SharedSpiClient.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SharedSpi/SharedSpiDevice.cpp"
+
+    "${CANlib_DIR}/src/CanMessageBuffer.cpp"
+    "${CANlib_DIR}/src/CanMessageFormats.cpp"
+    "${CANlib_DIR}/src/CanSettings.cpp"
 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/altcp_alloc.c"
@@ -138,20 +148,22 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/utils.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/vj.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/zepif.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME70/CanDriver.cpp"
 
-    "${CANlib_DIR}/src/CanMessageBuffer.cpp"
-    "${CANlib_DIR}/src/CanMessageFormats.cpp"
-    "${CANlib_DIR}/src/CanSettings.cpp"
-)
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WiFiInterface.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WifiFirmwareUploader.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/ESP8266WiFi/WiFiSocket.cpp"
 
-list(REMOVE_ITEM SRCS
-    "src/libc/nano-mallocr.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipSocket.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/LwipEthernetInterface.cpp"
+
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/GMAC/ethernet_sam.cpp"
 )
 
 list(APPEND INCLUDE_DIRS 
     "${CMAKE_CURRENT_LIST_DIR}"
     "${CANlib_DIR}/src"
+    "${DuetWiFiSocketServer_DIR}/src/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SAME5x/Ethernet"
 )
 
-set(EXECUTABLE_NAME "Duet3Firmware_MB6HC")
+set(EXECUTABLE_NAME "Duet3Firmware_Mini5plus")
