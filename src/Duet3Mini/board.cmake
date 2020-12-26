@@ -20,8 +20,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/LinuxInterface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Linux/DataTransfer.cpp"
 
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SharedSpi/SharedSpiClient.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/SharedSpi/SharedSpiDevice.cpp"
 
     "${CANlib_DIR}/src/CanMessageBuffer.cpp"
     "${CANlib_DIR}/src/CanMessageFormats.cpp"
@@ -58,7 +56,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/core/ipv6/ethip6.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/eui64.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/fs.c"
-    # "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/fsdata.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/fsm.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/http_client.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/httpd.c"
@@ -84,7 +81,6 @@ list(APPEND SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/lowpan6_common.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/lwiperf/lwiperf.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/magic.c"
-    # "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/http/makefsdata/makefsdata.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/polarssl/md4.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/netif/ppp/polarssl/md5.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Networking/LwipEthernet/Lwip/src/apps/mdns/mdns.c"

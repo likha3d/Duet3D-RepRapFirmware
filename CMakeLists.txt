@@ -12,11 +12,7 @@ set_property(CACHE BOARD PROPERTY STRINGS "Duet3Mini"
                                           "DuetNG"
                                           "DuetM"
                                           "Pccb"
-                                          "RADDS"
-                                          "Duet3_V05"
-                                          "Duet3_V06"
-                                          "Alligator"
-                                          "SAME70xpld")
+                                          "Duet3_V06")
 
 set(unsupported "Pccb" "Alligator" "SAME70xpld" "Duet3_V05" "RADDS")
 if(BOARD IN_LIST unsupported)
@@ -27,7 +23,12 @@ endif()
 # on the same parent directory as RepRapFirmware.
 get_filename_component(parent_dir ${CMAKE_CURRENT_LIST_DIR} DIRECTORY)
 
-find_package(CoreNG REQUIRED NAMES CoreN2G HINTS "${parent_dir}/CoreN2G" "${parent_dir}/CoreNG")
+if (BOARD STREQUAL "Duet3Mini")
+    find_package(CoreNG REQUIRED NAMES CoreN2G HINTS "${parent_dir}/CoreN2G")
+else()
+    find_package(CoreNG REQUIRED HINTS "${parent_dir}/CoreNG")
+endif()
+
 find_package(FreeRTOS REQUIRED HINTS "${parent_dir}/FreeRTOS")
 find_package(RRFLibraries REQUIRED HINTS "${parent_dir}/RRFLibraries")
 
@@ -204,6 +205,9 @@ set(SRCS
     "src/CAN/CommandProcessor.cpp"
     "src/CAN/ExpansionManager.cpp"
 
+    "src/Hardware/SharedSpi/SharedSpiClient.cpp"
+    "src/Hardware/SharedSpi/SharedSpiDevice.cpp"
+
     "src/bossa/Applet.cpp"
     "src/bossa/Applet.h"
     "src/bossa/Device.cpp"
@@ -247,7 +251,6 @@ set(SRCS
     "src/Libraries/sd_mmc/sd_mmc_mem.c"
     "src/Libraries/sd_mmc/ctrl_access.c"
     "src/Libraries/sd_mmc/sd_mmc_spi.cpp"
-
 )
 
 set(INCLUDE_DIRS
