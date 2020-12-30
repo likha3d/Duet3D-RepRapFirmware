@@ -888,7 +888,7 @@ void WiFiInterface::Diagnostics(MessageType mtype) noexcept
 			{
 				constexpr const char* SleepModes[4] = { "unknown", "none", "light", "modem" };
 				constexpr const char* ConnectionModes[4] =  { "none", "802.11b", "802.11g", "802.11n" };
-				// platform.MessageF(mtype, "WiFi signal strength %ddBm, mode %s, reconnections %u, sleep mode %s\n", (int)r.rssi, ConnectionModes[r.phyMode], reconnectCount, SleepModes[r.sleepMode]);
+				platform.MessageF(mtype, "WiFi signal strength %ddBm, mode %s, reconnections %u, sleep mode %s\n", (int)r.rssi, ConnectionModes[r.phyMode], reconnectCount, SleepModes[r.sleepMode]);
 			}
 			else if (currentMode == WiFiState::runningAsAccessPoint)
 			{
